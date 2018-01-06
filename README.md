@@ -16,6 +16,8 @@
 [![NSP Status][nsp-badge]][nsp-url]
 
 [![Code of Conduct][coc-badge]][coc-url]
+[![Codecov][codecov-badge]][codecov-url]
+[![Coverage Status][coveralls-badge]][coveralls-url]
 
 [![codebeat-badge]][codebeat-url]
 [![codacy-badge]][codacy-url]
@@ -97,13 +99,15 @@ This methods works the same as `greeting(name)` except that this is the synchron
 [version-badge]: https://img.shields.io/npm/v/fetch-as.svg?style=flat-square
 [downloads-badge]: https://img.shields.io/npm/dm/fetch-as.svg?style=flat-square
 [mit-license-badge]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
-[nsp-badge]: https://nodesecurity.io/orgs/motss/projects/a1c57ec8-9c17-4912-932b-f1ff6284e2ae/badge
+[nsp-badge]: https://nodesecurity.io/orgs/motss/projects/322b0452-d468-424a-affe-5c20c79b0f61/badge
 [daviddm-badge]: https://img.shields.io/david/expressjs/express.svg?style=flat-square
 
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
+[codecov-badge]: https://codecov.io/gh/motss/fetch-as/branch/master/graph/badge.svg
+[coveralls-badge]: https://coveralls.io/repos/github/motss/fetch-as/badge.svg?branch=master
 
-[codebeat-badge]: https://codebeat.co/badges/e486e791-12b7-4198-b834-0fa5bd04e1c3
-[codacy-badge]: https://api.codacy.com/project/badge/Grade/a70d1556b4e74711a162c4fd4dbb68a1
+[codebeat-badge]: https://codebeat.co/badges/dad71df7-d5bc-4d45-9464-12fc305196bb
+[codacy-badge]: https://api.codacy.com/project/badge/Grade/ef794f70204c452ca06427b2d1c072f6
 [inch-badge]: http://inch-ci.org/github/motss/fetch-as.svg?branch=master
 
 
@@ -114,10 +118,12 @@ This methods works the same as `greeting(name)` except that this is the synchron
 [version-url]: https://npmjs.org/package/fetch-as
 [downloads-url]: http://www.npmtrends.com/fetch-as
 [mit-license-url]: https://github.com/motss/fetch-as/blob/master/LICENSE
-[nsp-url]: https://nodesecurity.io/orgs/motss/projects/a1c57ec8-9c17-4912-932b-f1ff6284e2ae
+[nsp-url]: https://nodesecurity.io/orgs/motss/projects/322b0452-d468-424a-affe-5c20c79b0f61
 [daviddm-url]: https://david-dm.org/motss/fetch-as
 
 [coc-url]: https://github.com/motss/fetch-as/blob/master/CODE_OF_CONDUCT.md
+[codecov-url]: https://codecov.io/gh/motss/fetch-as
+[coveralls-url]: https://coveralls.io/github/motss/fetch-as?branch=master
 
 [codebeat-url]: https://codebeat.co/projects/github-com-motss-fetch-as-master
 [codacy-url]: https://www.codacy.com/app/motss/fetch-as?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=motss/fetch-as&amp;utm_campaign=Badge_Grade
