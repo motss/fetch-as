@@ -1,7 +1,7 @@
 <div align="center" style="text-align: center;">
   <h1 style="border-bottom: none;">fetch-as</h1>
 
-  <p>Better greeting message</p>
+  <p>Fetch data in Node.js</p>
 </div>
 
 <hr />
@@ -27,15 +27,17 @@
 
 ## Table of contents
 
-- [Pre-requisite](#pre-requisite)
+- [Pre-requisites](#pre-requisites)
 - [Setup](#setup)
   - [Install](#install)
   - [Usage](#usage)
     - [Node.js](#nodejs)
     - [Native ES modules or TypeScript](#native-es-modules-or-typescript)
 - [API Reference](#api-reference)
-  - [greeting(name)](#greetingname)
-  - [greetingSync(name)](#greetingsyncname)
+  - [fetchAs](#fetchas)
+  - [fetchAsBuffer(url[, options])](#fetchasbufferurl-options)
+  - [fetchAsJson(url[, options])](#fetchasjsonurl-options)
+  - [fetchAsText(url[, options])](#fetchastexturl-options)
 - [License](#license)
 
 ## Pre-requisites
@@ -57,25 +59,74 @@ $ npm install --save fetch-as
 #### Node.js
 
 ```js
-const greeting = require('fetch-as');
+const { fetchAs } = require('fetch-as');
+// OR require each method explicitly
+// const {
+//   fetchAsBuffer,
+//   fetchAsJson,
+//   fetchAsText,
+// } = require('fetch-as');
+
+const url = 'http://www.mocky.io/v2/5a50cfa82f000085158d5315';
+const jsonData = fetchAs.json(url); // OR fetchAsJson(url);
+
+console.log('# json', jsonData);
+// {
+//   "status": 200,
+//   "message": "OK",
+//   "by": "fetch-as"
+// }
 ```
 
 #### Native ES modules or TypeScript
 
 ```ts
-import greeting from 'fetch-as';
+import fetchAs from 'fetch-as';
+// OR import each method explicitly
+// import {
+//   fetchAsBuffer,
+//   fetchAsJson,
+//   fetchAsText,
+// } from 'fetch-as';
+
+const url = 'http://www.mocky.io/v2/5a50cfa82f000085158d5315';
+const jsonData = fetchAs.json(url); // OR fetchAsJson(url);
+
+console.log('# json', jsonData);
+// {
+//   "status": 200,
+//   "message": "OK",
+//   "by": "fetch-as"
+// }
 ```
 
 ## API Reference
 
-### greeting(name)
+### fetchAs
+
+This contains a collection of methods that will convert the response into the specified data type:
+
+- `.buffer(url[, options])` Method which will return a [Buffer][buffer-nodejs-url].
+- `.json(url[, options])` Method which will return a JSON data which can consumed by JavaScript as [Object][object-mdn-url].
+- `.text(url[, options])` Method which will return a text/ string.
+
+### fetchAsBuffer(url[, options])
 
   - name <[string][string-mdn-url]> Name of the person to greet at.
-  - returns: <[Promise][promise-mdn-url]<[string][string-mdn-url]>> Promise which resolves with a greeting message.
+  - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
+  - returns: <[Promise][promise-mdn-url]<[Buffer][buffer-nodejs-url]>> Promise which resolves with a Buffer.
+  - 
+### fetchAsJson(url[, options])
 
-### greetingSync(name)
+  - name <[string][string-mdn-url]> Name of the person to greet at.
+  - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
+  - returns: <[Promise][promise-mdn-url]<[Object][object-mdn-url]>> Promise which resolves with a JSON data which can consumed by JavaScript as [Object][object-mdn-url].
+  - 
+### fetchAsText(url[, options])
 
-This methods works the same as `greeting(name)` except that this is the synchronous version.
+  - name <[string][string-mdn-url]> Name of the person to greet at.
+  - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
+  - returns: <[Promise][promise-mdn-url]<[string][string-mdn-url]>> Promise which resolves with a text/ string.
 
 ## License
 
@@ -88,7 +139,10 @@ This methods works the same as `greeting(name)` except that this is the synchron
 [npm-url]: https://www.npmjs.com
 [node-releases-url]: https://nodejs.org/en/download/releases
 [string-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
+[object-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
 [promise-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[node-fetch-options-url]: https://github.com/bitinn/node-fetch#fetch-options
+[buffer-nodejs-url]: https://nodejs.org/api/buffer.html
 
 
 
