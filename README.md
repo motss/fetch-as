@@ -67,15 +67,19 @@ const { fetchAs } = require('fetch-as');
 //   fetchAsText,
 // } = require('fetch-as');
 
-const url = 'http://www.mocky.io/v2/5a50cfa82f000085158d5315';
-const jsonData = fetchAs.json(url); // OR fetchAsJson(url);
+async function runFetch() {
+  const url = 'http://www.mocky.io/v2/5a50cfa82f000085158d5315';
+  const jsonData = await fetchAs.json(url); // OR fetchAsJson(url);
 
-console.log('# json', jsonData);
-// {
-//   "status": 200,
-//   "message": "OK",
-//   "by": "fetch-as"
-// }
+  console.log('# json', jsonData);
+  // {
+  //   "status": 200,
+  //   "message": "OK",
+  //   "by": "fetch-as"
+  // }
+}
+
+runFetch();
 ```
 
 #### Native ES modules or TypeScript
@@ -89,15 +93,19 @@ import fetchAs from 'fetch-as';
 //   fetchAsText,
 // } from 'fetch-as';
 
-const url = 'http://www.mocky.io/v2/5a50cfa82f000085158d5315';
-const jsonData = fetchAs.json(url); // OR fetchAsJson(url);
+async function runFetch() {
+  const url = 'http://www.mocky.io/v2/5a50cfa82f000085158d5315';
+  const jsonData = await fetchAs.json(url); // OR fetchAsJson(url);
 
-console.log('# json', jsonData);
-// {
-//   "status": 200,
-//   "message": "OK",
-//   "by": "fetch-as"
-// }
+  console.log('# json', jsonData);
+  // {
+  //   "status": 200,
+  //   "message": "OK",
+  //   "by": "fetch-as"
+  // }
+}
+
+runFetch();
 ```
 
 ## API Reference
@@ -142,7 +150,7 @@ This contains a collection of methods that will convert the response into the sp
 [object-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
 [promise-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [node-fetch-options-url]: https://github.com/bitinn/node-fetch#fetch-options
-[buffer-nodejs-url]: https://nodejs.org/api/buffer.html
+[buffer-nodejs-url]: https://nodejs.org/api/buffer.html#buffer_buffer
 
 
 
