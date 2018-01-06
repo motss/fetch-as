@@ -21,7 +21,7 @@
 [![codacy-badge]][codacy-url]
 [![inch-badge]][inch-url]
 
-> Fetch API with specific response type in Node.js
+> Fetch API in Node.js with specific response type
 
 ## Table of contents
 

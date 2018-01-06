@@ -2,7 +2,7 @@
   "name": "fetch-as",
   "version": "0.0.0",
   "private": true,
-  "description": "Fetch API with specific response type in Node.js",
+  "description": "Fetch API in Node.js with specific response type",
   "keywords": [
     "fetch-as",
     "node",
@@ -32,9 +32,12 @@
     "prepublishOnly": "npm run check && npm run build",
     "ts": "tsc --target esnext --lib esnext,esnext.asynciterable --module commonjs gulpfile.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-fetch": "^1.7.3"
+  },
   "devDependencies": {
-    "@types/node": "^8.0.57",
+    "@types/node": "^8.5.7",
+    "@types/node-fetch": "^1.6.7",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-function-bind": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -46,14 +49,14 @@
     "env-cmd": "^7.0.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
-    "gulp-sequence": "^0.4.6",
+    "gulp-sequence": "^1.0.0",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.3",
     "nsp": "^3.1.0",
     "tslint": "^5.8.0",
     "tslint-config-airbnb": "^5.4.2",
     "tslint-consistent-codestyle": "^1.11.0",
-    "tslint-immutable": "^4.4.0",
+    "tslint-immutable": "^4.5.0",
     "typescript": "^2.6.2"
   },
   "engines": {
