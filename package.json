@@ -1,11 +1,19 @@
 {
   "name": "fetch-as",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "Fetch API in Node.js with specific response type",
   "keywords": [
+    "array-buffer",
+    "blob",
+    "buffer",
+    "fetch",
+    "fetch-api",
     "fetch-as",
+    "json",
     "node",
+    "node-fetch",
+    "text",
+    "text-converted",
     "typescript"
   ],
   "homepage": "https://github.com/motss/fetch-as",
