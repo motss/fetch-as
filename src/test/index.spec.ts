@@ -18,9 +18,9 @@ const testUrl = 'http://localhost:5353';
 
 beforeEach(() => {
   nock(testUrl)
-    .get(uri => /^\/(ok|bad)/i.test(uri))
+    .get(uri => /^\/(ok|bad)$/i.test(uri))
     .reply((uri) => {
-      const isOK = /ok/i.test(uri);
+      const isOK = /ok$/i.test(uri);
       const rs = isOK ? 200 : 400;
 
       return [
@@ -33,6 +33,8 @@ beforeEach(() => {
       ];
     });
 });
+
+afterEach(() => nock.cleanAll());
 
 describe('fetch-as', async () => {
   test('fetch-as', async () => {
@@ -56,10 +58,18 @@ describe('fetch-as', async () => {
     }
   });
 
+  test('invalid URL', async () => {
+    try {
+      await fetchAsJson('/invalid-url');
+    } catch (e) {
+      expect(e instanceof Error).toBe(true);
+      expect(e.message).toEqual('only absolute urls are supported');
+    }
+  });
+
   test('fetchAsBuffer works', async () => {
     try {
-      const url = `${testUrl}/ok`;
-      const d = await fetchAsBuffer(url);
+      const d = await fetchAsBuffer(`${testUrl}/ok`);
 
       expect(d.status).toEqual(200);
       expect(d.data).toEqual(Buffer.from(JSON.stringify({
@@ -75,22 +85,30 @@ describe('fetch-as', async () => {
 
   test('fetchAsBuffer fails', async () => {
     try {
-      await fetchAsBuffer('/ok');
+      const d = await fetchAsBuffer(`${testUrl}/bad`);
+
+      expect(d.status).toBeGreaterThan(399);
+      expect(d.error).toEqual(Buffer.from(JSON.stringify({
+        error: {
+          status: 400,
+          message: 'Bad',
+        },
+      })));
     } catch (e) {
-      expect(e instanceof Error).toEqual(true);
-      expect(e.message).toEqual('only absolute urls are supported');
+      throw e;
     }
   });
 
   test('fetchAsJson works', async () => {
     try {
-      const url = `${testUrl}/ok`;
-      const d = await fetchAsJson(url);
+      const d = await fetchAsJson(`${testUrl}/ok`);
 
       expect(d.status).toEqual(200);
       expect(d.data).toEqual({
-        status: 200,
-        message: 'OK',
+        data: {
+          status: 200,
+          message: 'OK',
+        },
       });
     } catch (e) {
       throw e;
@@ -99,17 +117,23 @@ describe('fetch-as', async () => {
 
   test('fetchAsJson fails', async () => {
     try {
-      await fetchAsJson('/ok');
+      const d = await fetchAsJson(`${testUrl}/bad`);
+
+      expect(d.status).toBeGreaterThan(399);
+      expect(d.error).toEqual({
+        error: {
+          status: 400,
+          message: 'Bad',
+        },
+      });
     } catch (e) {
-      expect(e instanceof Error).toEqual(true);
-      expect(e.message).toEqual('only absolute urls are supported');
+      throw e;
     }
   });
 
   test('fetchAsText works', async () => {
     try {
-      const url = `${testUrl}/ok`;
-      const d = await fetchAsText(url);
+      const d = await fetchAsText(`${testUrl}/ok`);
 
       expect(d.status).toEqual(200);
       expect(d.data).toEqual(JSON.stringify({
@@ -125,23 +149,15 @@ describe('fetch-as', async () => {
 
   test('fetchAsText fails', async () => {
     try {
-      await fetchAsText('/ok');
-    } catch (e) {
-      expect(e instanceof Error).toEqual(true);
-      expect(e.message).toEqual('only absolute urls are supported');
-    }
-  });
-
-  test('error request', async () => {
-    try {
-      const url = `${testUrl}/bad`;
-      const d = await fetchAsJson(url);
+      const d = await fetchAsText(`${testUrl}/bad`);
 
       expect(d.status).toBeGreaterThan(399);
-      expect(d.data).toEqual({
-        status: 400,
-        message: 'Bad',
-      });
+      expect(d.error).toEqual(JSON.stringify({
+        error: {
+          status: 400,
+          message: 'Bad',
+        },
+      }));
     } catch (e) {
       throw e;
     }

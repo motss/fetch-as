@@ -14,7 +14,8 @@ export type DataType =
   | 'text';
 export declare interface FetchAsData {
   status: number;
-  data: any;
+  data?: any;
+  error?: any;
 }
 
 /** Import typings */
@@ -60,7 +61,7 @@ async function fetchThen(
 
     return {
       status: rstat,
-      data: (rstat > 399 ? d.error : d.data) || d,
+      [rstat > 399 ? 'error' : 'data']: d,
     };
   } catch (e) {
     throw e;
