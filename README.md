@@ -114,27 +114,35 @@ runFetch();
 
 This contains a collection of methods that will convert the response into the specified data type:
 
-- `.buffer(url[, options])` Method which will return a [Buffer][buffer-nodejs-url].
-- `.json(url[, options])` Method which will return a JSON data which can consumed by JavaScript as [Object][object-mdn-url].
-- `.text(url[, options])` Method which will return a text/ string.
+  - `.buffer(url[, options])` Method which will return a [Buffer][buffer-nodejs-url].
+  - `.json(url[, options])` Method which will return a JSON data which can consumed by JavaScript as [Object][object-mdn-url].
+  - `.text(url[, options])` Method which will return a text/ string.
+
+### FetchAsData&lt;T&gt;
+
+Response data returned in the type of `T` where `T` might be one of the values: [Buffer][buffer-nodejs-url], [Object][object-mdn-url], or [string][string-mdn-url].
+
+  - <[status][string-mdn-url]> HTTP response status code. Any response that has a HTTP status greater than `399` can be regarded as an error response.
+  - <`data<T>`> This contains the successful response data of type `T`. _Only shows when the HTTP response status code is less than `400`._
+  - <`error<T>`> This contains the error response data of type `T`. _Only shows when the HTTP response status code is greater than `399`._
 
 ### fetchAsBuffer(url[, options])
 
   - name <[string][string-mdn-url]> Name of the person to greet at.
   - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
-  - returns: <[Promise][promise-mdn-url]<[Buffer][buffer-nodejs-url]>> Promise which resolves with a Buffer.
-  - 
+  - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Buffer][buffer-nodejs-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [Buffer][buffer-nodejs-url].
+
 ### fetchAsJson(url[, options])
 
   - name <[string][string-mdn-url]> Name of the person to greet at.
   - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
-  - returns: <[Promise][promise-mdn-url]<[Object][object-mdn-url]>> Promise which resolves with a JSON data which can consumed by JavaScript as [Object][object-mdn-url].
-  - 
+  - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Object][object-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type JSON which can consumed by JavaScript as [Object][object-mdn-url].
+
 ### fetchAsText(url[, options])
 
   - name <[string][string-mdn-url]> Name of the person to greet at.
   - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
-  - returns: <[Promise][promise-mdn-url]<[string][string-mdn-url]>> Promise which resolves with a text/ string.
+  - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [string][string-mdn-url].
 
 ## License
 
@@ -151,6 +159,7 @@ This contains a collection of methods that will convert the response into the sp
 [promise-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [node-fetch-options-url]: https://github.com/bitinn/node-fetch#fetch-options
 [buffer-nodejs-url]: https://nodejs.org/api/buffer.html#buffer_buffer
+[fetchasdatat-url]: #fetchasdatat
 
 
 
