@@ -1,17 +1,17 @@
 // @ts-check
 
 /** FIXME: Awaiting node-fetch@2.0.0 stable release */
-// export type DataType =
-//   'arrayBuffer'
-//   | 'blob'
-//   | 'buffer'
-//   | 'json'
-//   | 'text'
-//   | 'textConverted';
 export type DataType =
-  'buffer'
+  'arrayBuffer'
+  | 'blob'
+  | 'buffer'
   | 'json'
-  | 'text';
+  | 'text'
+  | 'textConverted';
+// export type DataType =
+//   'buffer'
+//   | 'json'
+//   | 'text';
 export declare interface FetchAsData {
   status: number;
   data?: any;
@@ -33,10 +33,10 @@ function toDataType(
 ) {
   switch (dataType) {
     /** FIXME: Awaiting node-fetch@2.0.0 stable release */
-    // case 'arrayBuffer':
-    //   return await response.arrayBuffer();
-    // case 'blob':
-    //   return await response.blob();
+    case 'arrayBuffer':
+      return response.arrayBuffer();
+    case 'blob':
+      return response.blob();
     case 'buffer':
       return response.buffer();
     case 'json':
@@ -44,8 +44,8 @@ function toDataType(
     case 'text':
     default:
       return response.text();
-    // case 'textConverted':
-    //   return await response.textConverted();
+    case 'textConverted':
+      return response.textConverted();
   }
 }
 
@@ -68,13 +68,13 @@ async function fetchThen(
   }
 }
 
-// export function fetchAsArrayBuffer(url: string, options?: RequestInit): Promise<FetchAsData> {
-//   return fetchThen(url, options, 'arrayBuffer');
-// }
+export function fetchAsArrayBuffer(url: string, options?: RequestInit): Promise<FetchAsData> {
+  return fetchThen(url, options, 'arrayBuffer');
+}
 
-// export function fetchAsBlob(url: string, options?: RequestInit): Promise<FetchAsData> {
-//   return fetchThen(url, options, 'blob');
-// }
+export function fetchAsBlob(url: string, options?: RequestInit): Promise<FetchAsData> {
+  return fetchThen(url, options, 'blob');
+}
 
 export function fetchAsBuffer(url: string, options?: RequestInit): Promise<FetchAsData> {
   return fetchThen(url, options, 'buffer');
@@ -88,17 +88,17 @@ export function fetchAsText(url: string, options?: RequestInit): Promise<FetchAs
   return fetchThen(url, options, 'text');
 }
 
-// export function fetchAsTextConverted(url: string, options?: RequestInit): Promise<FetchAsData> {
-//   return fetchThen(url, options, 'textConverted');
-// }
+export function fetchAsTextConverted(url: string, options?: RequestInit): Promise<FetchAsData> {
+  return fetchThen(url, options, 'textConverted');
+}
 
 export const fetchAs = {
-  // arrayBuffer: fetchAsArrayBuffer,
-  // blob: fetchAsBlob,
+  arrayBuffer: fetchAsArrayBuffer,
+  blob: fetchAsBlob,
   buffer: fetchAsBuffer,
   json: fetchAsJson,
   text: fetchAsText,
-  // textConverted: fetchAsTextConverted,
+  textConverted: fetchAsTextConverted,
 };
 
 export default fetchAs;
