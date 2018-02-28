@@ -63,7 +63,7 @@ describe('fetch-as', async () => {
       await fetchAsJson('/invalid-url');
     } catch (e) {
       expect(e instanceof Error).toBe(true);
-      expect(e.message).toEqual('only absolute urls are supported');
+      expect(e.message).toEqual('Only absolute URLs are supported');
     }
   });
 
