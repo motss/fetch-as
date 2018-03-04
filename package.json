@@ -41,6 +41,7 @@
     "ts": "tsc --target esnext --lib esnext,esnext.asynciterable --module commonjs gulpfile.ts"
   },
   "dependencies": {
+    "encoding": "^0.1.12",
     "node-fetch": "^2.0.0"
   },
   "devDependencies": {

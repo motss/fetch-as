@@ -5,16 +5,25 @@ import nock from 'nock';
 
 /** Import other modules */
 import fetchAs, {
-  // fetchAsArrayBuffer,
-  // fetchAsBlob,
+  fetchAsArrayBuffer,
+  fetchAsBlob,
   fetchAsBuffer,
   fetchAsJson,
   fetchAsText,
-  // fetchAsTextConverted,
+  fetchAsTextConverted,
 } from '../';
 
 /** Setting up */
 const testUrl = 'http://localhost:5353';
+const toBuffer = (ab) => {
+  let buf = new Buffer(ab.byteLength);
+  const view = new Uint8Array(ab);
+  for (let i = 0; i < buf.length; ++i) {
+      buf[i] = view[i];
+  }
+
+  return buf;
+};
 
 beforeEach(() => {
   nock(testUrl)
@@ -64,6 +73,62 @@ describe('fetch-as', async () => {
     } catch (e) {
       expect(e instanceof Error).toBe(true);
       expect(e.message).toEqual('Only absolute URLs are supported');
+    }
+  });
+
+  test('fetchAsArrayBuffer works', async () => {
+    try {
+      const d = await fetchAsArrayBuffer(`${testUrl}/ok`);
+
+      expect(d.status).toEqual(200);
+      expect(toBuffer(d.data)).toEqual(Buffer.from(JSON.stringify({
+        data: {
+          status: 200,
+          message: 'OK',
+        },
+      })));
+    } catch (e) {
+      throw e;
+    }
+  });
+
+  test('fetchAsArrayBuffer fails', async () => {
+    try {
+      const d = await fetchAsArrayBuffer(`${testUrl}/bad`);
+
+      expect(d.status).toBeGreaterThan(399);
+      expect(toBuffer(d.error)).toEqual(Buffer.from(JSON.stringify({
+        error: {
+          status: 400,
+          message: 'Bad',
+        },
+      })))
+    } catch (e) {
+      throw e;
+    }
+  });
+  
+  test('fetchAsBlob works', async () => {
+    try {
+      const d = await fetchAsBlob(`${testUrl}/ok`);
+
+      expect(d.status).toEqual(200);
+      expect(d.data.size).toEqual(38);
+      expect(d.data.type).toEqual('application/json');
+    } catch (e) {
+      throw e;
+    }
+  });
+
+  test('fetchAsBlob fails', async () => {
+    try {
+      const d = await fetchAsBlob(`${testUrl}/bad`);
+
+      expect(d.status).toBeGreaterThan(399);
+      expect(d.error.size).toEqual(40);
+      expect(d.error.type).toEqual('application/json');
+    } catch (e) {
+      throw e;
     }
   });
 
@@ -150,6 +215,37 @@ describe('fetch-as', async () => {
   test('fetchAsText fails', async () => {
     try {
       const d = await fetchAsText(`${testUrl}/bad`);
+
+      expect(d.status).toBeGreaterThan(399);
+      expect(d.error).toEqual(JSON.stringify({
+        error: {
+          status: 400,
+          message: 'Bad',
+        },
+      }));
+    } catch (e) {
+      throw e;
+    }
+  });
+
+  test('fetchAsTextConverted works', async () => {
+    try {
+      const d = await fetchAsTextConverted(`${testUrl}/ok`);
+
+      expect(d.data).toEqual(JSON.stringify({
+        data: {
+          status: 200,
+          message: 'OK',
+        },
+      }));
+    } catch (e) {
+      throw e;
+    }
+  });
+
+  test('fetchAsTextConverted fails', async () => {
+    try {
+      const d = await fetchAsTextConverted(`${testUrl}/bad`);
 
       expect(d.status).toBeGreaterThan(399);
       expect(d.error).toEqual(JSON.stringify({
