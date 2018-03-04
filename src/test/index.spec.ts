@@ -16,10 +16,11 @@ import fetchAs, {
 /** Setting up */
 const testUrl = 'http://localhost:5353';
 const toBuffer = (ab) => {
-  let buf = new Buffer(ab.byteLength);
+  const buf = new Buffer(ab.byteLength);
   const view = new Uint8Array(ab);
-  for (let i = 0; i < buf.length; ++i) {
-      buf[i] = view[i];
+
+  for (let i = 0; i < buf.length; i += 1) {
+    buf[i] = view[i];
   }
 
   return buf;
@@ -102,12 +103,12 @@ describe('fetch-as', async () => {
           status: 400,
           message: 'Bad',
         },
-      })))
+      })));
     } catch (e) {
       throw e;
     }
   });
-  
+
   test('fetchAsBlob works', async () => {
     try {
       const d = await fetchAsBlob(`${testUrl}/ok`);
