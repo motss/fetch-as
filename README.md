@@ -29,19 +29,19 @@
 
 - [Pre-requisites](#pre-requisites)
 - [Setup](#setup)
-    - [Install](#install)
-    - [Usage](#usage)
-        - [Node.js](#nodejs)
-        - [Native ES modules or TypeScript](#native-es-modules-or-typescript)
+  - [Install](#install)
+  - [Usage](#usage)
+    - [Node.js](#nodejs)
+    - [Native ES modules or TypeScript](#native-es-modules-or-typescript)
 - [API Reference](#api-reference)
-    - [fetchAs](#fetchas)
-    - [FetchAsData&lt;T&gt;](#fetchasdatat)
-    - [fetchAsArrayBuffer(url[, options])](#fetchasarraybufferurl-options)
-    - [fetchAsBlob(url[, options])](#fetchasbloburl-options)
-    - [fetchAsBuffer(url[, options])](#fetchasbufferurl-options)
-    - [fetchAsJson(url[, options])](#fetchasjsonurl-options)
-    - [fetchAsText(url[, options])](#fetchastexturl-options)
-    - [fetchAsTextConverted(url[, options])](#fetchastextconvertedurl-options)
+  - [fetchAs](#fetchas)
+  - [FetchAsData&lt;T&gt;](#fetchasdatat)
+  - [fetchAsArrayBuffer(url[, options])](#fetchasarraybufferurl-options)
+  - [fetchAsBlob(url[, options])](#fetchasbloburl-options)
+  - [fetchAsBuffer(url[, options])](#fetchasbufferurl-options)
+  - [fetchAsJson(url[, options])](#fetchasjsonurl-options)
+  - [fetchAsText(url[, options])](#fetchastexturl-options)
+  - [fetchAsTextConverted(url[, options])](#fetchastextconvertedurl-options)
 - [License](#license)
 
 ## Pre-requisites
@@ -143,46 +143,45 @@ ___
 
 ### fetchAsArrayBuffer(url[, options])
 
-  - url <[string][string-mdn-url]> A string representing the URL for fetching.
-  - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
-  - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[ArrayBuffer][arraybuffer-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] 
-  of type [ArrayBuffer][arraybuffer-mdn-url].
+- url <[string][string-mdn-url]> A string representing the URL for fetching.
+- options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
+- returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[ArrayBuffer][arraybuffer-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [ArrayBuffer][arraybuffer-mdn-url].
 
 ### fetchAsBlob(url[, options])
 
-  - url <[string][string-mdn-url]> A string representing the URL for fetching.
-  - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
-  - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Blob][blob-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] 
-  of type [Blob][blob-mdn-url].
+- url <[string][string-mdn-url]> A string representing the URL for fetching.
+- options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
+- returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Blob][blob-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [Blob][blob-mdn-url].
 
 ### fetchAsBuffer(url[, options])
 
-  - url <[string][string-mdn-url]> A string representing the URL for fetching.
-  - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
-  - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Buffer][buffer-nodejs-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [Buffer][buffer-nodejs-url].
+- url <[string][string-mdn-url]> A string representing the URL for fetching.
+- options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
+- returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Buffer][buffer-nodejs-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [Buffer][buffer-nodejs-url].
 
 ### fetchAsJson(url[, options])
 
-  - url <[string][string-mdn-url]> A string representing the URL for fetching.
-  - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
-  - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Object][object-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type JSON which can consumed by JavaScript as [Object][object-mdn-url].
+- url <[string][string-mdn-url]> A string representing the URL for fetching.
+- options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
+- returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Object][object-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type JSON which can consumed by JavaScript as [Object][object-mdn-url].
 
 ### fetchAsText(url[, options])
 
-  - url <[string][string-mdn-url]> A string representing the URL for fetching.
-  - options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
-  - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [string][string-mdn-url].
+- url <[string][string-mdn-url]> A string representing the URL for fetching.
+- options <[Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
+- returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [string][string-mdn-url].
 
 ### fetchAsTextConverted(url[, options])
 
-  - Identical to [fetchAsText(url[, options])][fetchastexturl-options-url], except instead of always converting to `UTF-8`, encoding sniffing will be performed and text converted to `UTF-8`, if possible.
+_* Please note that [encoding][encoding-url] is required to be installed in order to use this method._
+
+- Identical to [fetchAsText(url[, options])][fetchastexturl-options-url], except instead of always converting to `UTF-8`, encoding sniffing will be performed and text converted to `UTF-8`, if possible.
 
 ## License
 
 [MIT License](https://motss.mit-license.org/) © Rong Sen Ng
 
-
-
+<!-- References -->
 [typescript-url]: https://github.com/Microsoft/TypeScript
 [node-js-url]: https://nodejs.org
 [npm-url]: https://www.npmjs.com
@@ -194,11 +193,12 @@ ___
 [buffer-nodejs-url]: https://nodejs.org/api/buffer.html#buffer_buffer
 [arraybuffer-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
 [blob-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/API/Blob
+[encoding-url]: https://www.npmjs.com/package/encoding
+
 [fetchasdatat-url]: #fetchasdatat
 [fetchastexturl-options-url]: #fetchastexturl-options
 
-
-
+<!-- Badges -->
 [nodei-badge]: https://nodei.co/npm/fetch-as.png?downloads=true&downloadRank=true&stars=true
 
 [travis-badge]: https://img.shields.io/travis/motss/fetch-as.svg?style=flat-square
@@ -217,8 +217,7 @@ ___
 [codacy-badge]: https://api.codacy.com/project/badge/Grade/ef794f70204c452ca06427b2d1c072f6
 [inch-badge]: http://inch-ci.org/github/motss/fetch-as.svg?branch=master
 
-
-
+<!-- Links -->
 [nodei-url]: https://nodei.co/npm/fetch-as
 
 [travis-url]: https://travis-ci.org/motss/fetch-as

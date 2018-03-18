@@ -3,6 +3,8 @@ dist: trusty
 node_js:
   - v8
   - v9
+before_script:
+  - npm install codecov coveralls
 script:
   - npm run check
   - npm run test
