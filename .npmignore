@@ -1,12 +1,8 @@
 # Ignore everything
-**/*.*
 .git/
+**/*.*
 
 # Except these
-!.npmrc
-!*.d.ts
-!*.js
 !**/json.d.ts
-!**/package.json
-!LICENSE
-!README.md
+!/*.d.ts
+!/*.js
