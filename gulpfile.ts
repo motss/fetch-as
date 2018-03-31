@@ -26,7 +26,7 @@ const BABELRC = {
           node: 'current',
         },
         spec: true,
-        modules: 'commonjs',
+        modules: false,
         useBuiltIns: true,
       },
     ],
