@@ -4,7 +4,7 @@
 import nock from 'nock';
 
 /** Import other modules */
-import fetchAs, {
+import {
   fetchAsArrayBuffer,
   fetchAsBlob,
   fetchAsBuffer,
@@ -47,27 +47,6 @@ beforeEach(() => {
 afterEach(() => nock.cleanAll());
 
 describe('fetch-as', async () => {
-  test('fetch-as', async () => {
-    try {
-      /** FIXME: Awaiting node-fetch@2.0.0 stable release */
-      expect(fetchAs).toMatchObject({
-        arrayBuffer: expect.any(Function),
-        blob: expect.any(Function),
-        buffer: expect.any(Function),
-        json: expect.any(Function),
-        text: expect.any(Function),
-        textConverted: expect.any(Function),
-      });
-      expect(fetchAs).toMatchObject({
-        buffer: expect.any(Function),
-        json: expect.any(Function),
-        text: expect.any(Function),
-      });
-    } catch (e) {
-      throw e;
-    }
-  });
-
   test('invalid URL', async () => {
     try {
       await fetchAsJson('/invalid-url');
