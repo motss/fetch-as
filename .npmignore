@@ -1,8 +1,0 @@
-# Ignore everything
-.git/
-**/*.*
-
-# Except these
-!**/json.d.ts
-!/*.d.ts
-!/*.js

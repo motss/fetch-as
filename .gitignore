@@ -1,27 +1,23 @@
 # dot files
 .build/
 .DS_Store
-.esm-cache
 .nyc_output
 .tmp/
 .vscode
 *.env
 
 # debug
-npm-debug.log*
-yarn-error.log*
+*-debug.log*
 
 # folders
-./test*/
 coverage*/
-demo*/
+dist*/
 node_modules/
 
 # .js files
+*.d.ts*
 *.js
 *.jsx
-*.d.ts*
-gulpfile*.js
+*.mjs
 
 # Do not ignore
-!**/json.d.ts
