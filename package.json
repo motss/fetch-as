@@ -44,13 +44,13 @@
     "test": "jest --config ./.jestrc.json"
   },
   "dependencies": {
+    "@types/node-fetch": "^2.1.2",
     "node-fetch": "^2.2.0"
   },
   "devDependencies": {
     "@messageflow/tslint-config": "^1.1.0",
     "@types/jest": "^22.2.3",
     "@types/node": "^9.6.28",
-    "@types/node-fetch": "^2.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "encoding": "^0.1.12",
