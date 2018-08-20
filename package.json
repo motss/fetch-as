@@ -41,7 +41,7 @@
     "lint": "tslint --project tsconfig.json --config tslint.prod.json --format stylish 'src/**/*.ts*'",
     "lint:debug": "tslint --project tsconfig.json --config tslint.json --format stylish 'src/**/*.ts*'",
     "prepublishOnly": "npm run lint && npm run build",
-    "test": "jest --config ./.jestrc.json"
+    "test": "jest --detectOpenHandles --config ./.jestrc.json"
   },
   "dependencies": {
     "node-fetch": "^2.2.0"
@@ -49,6 +49,7 @@
   "devDependencies": {
     "@messageflow/tslint-config": "^1.1.0",
     "@types/jest": "^23.3.1",
+    "@types/nock": "^9.3.0",
     "@types/node": "^10.7.1",
     "@types/node-fetch": "^2.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

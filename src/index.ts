@@ -1,9 +1,14 @@
 // @ts-check
 
-export type FetchAsOptionals = Pick<Response, 'body'|'headers'|'size'|'type'>;
+export interface FetchAsInfo extends Pick<Response, 'size'|'timeout'|'type'> {
+  headers: {
+    [key: string]: any;
+  };
+}
 export interface FetchAsReturnType {
   status: number;
-  optionals: FetchAsOptionals;
+  info: FetchAsInfo;
+
   data?: any;
   error?: any;
 }
@@ -24,9 +29,19 @@ declare interface ReturnFetchAs<T, U> extends FetchAsReturnType {
   error?: U;
 }
 
-import { Blob, RequestInit, Response } from 'node-fetch';
+import { Blob, Headers, RequestInit, Response } from 'node-fetch';
 
 import fetch from 'node-fetch';
+
+function getResponseHeaders(headers: Headers) {
+  const d = {};
+
+  for (const [k, v] of headers) {
+    d[k] = v;
+  }
+
+  return d;
+}
 
 async function fetchThen<T extends FetchAsReturnType>(
   dataType: DataType,
@@ -36,17 +51,18 @@ async function fetchThen<T extends FetchAsReturnType>(
   try {
     const r = await fetch(url, options);
     const rstat = r.status;
-    const optionals = {
-      body: r.body,
-      headers: r.headers,
-      size: r.size,
-      type: r.type,
-    };
+    const rHeaders = getResponseHeaders(r.headers);
     const d = await r[dataType]();
 
     return {
-      optionals,
       status: rstat,
+      info: {
+        headers: rHeaders,
+        timeout: r.timeout,
+        size: r.size,
+        type: r.type,
+      },
+
       [rstat > 399 ? 'error' : 'data']: d,
     };
   } catch (e) {

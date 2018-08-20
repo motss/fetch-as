@@ -1,6 +1,21 @@
 // @ts-check
 
+declare interface TestSuccessData {
+  message: string;
+}
+declare interface TestErrorData {
+  type: string;
+  message: string;
+}
+declare interface TestReturnType extends FetchAsReturnType {
+  data?: TestSuccessData;
+  error?: TestErrorData;
+}
+
+import { FetchAsData, FetchAsReturnType } from '../';
+
 import nock from 'nock';
+import fetch from 'node-fetch';
 
 import {
   fetchAsArrayBuffer,
@@ -11,10 +26,8 @@ import {
   fetchAsTextConverted,
 } from '../';
 
-/** Setting up */
-const testUrl = 'http://localhost:5353';
-const toBuffer = (ab) => {
-  const buf = new Buffer(ab.byteLength);
+function toBuffer(ab) {
+  const buf = Buffer.alloc(ab.byteLength);
   const view = new Uint8Array(ab);
 
   for (let i = 0; i < buf.length; i += 1) {
@@ -22,219 +35,242 @@ const toBuffer = (ab) => {
   }
 
   return buf;
-};
+}
 
-beforeEach(() => {
-  nock(testUrl)
-    .get(uri => /^\/(ok|bad)$/i.test(uri))
-    .reply((uri) => {
-      const isOK = /ok$/i.test(uri);
-      const rs = isOK ? 200 : 400;
-
-      return [
-        rs, {
-          [rs > 399 ? 'error' : 'data']: {
-            status: rs,
-            message: isOK ? 'OK' : 'Bad',
-          },
-        },
-      ];
+function timeoutNock(url) {
+  return nock(url)
+    .persist(true)
+    // .log(console.log)
+    .get(uri => /^\/timeout/i.test(uri))
+    .delay(5e3)
+    .reply(500, () => {
+      return {};
     });
-});
+}
 
-afterEach(() => nock.cleanAll());
+function errorNock(url, data) {
+  return nock(url)
+    .persist(true)
+    // .log(console.log)
+    .get(uri => /^\/error/i.test(uri))
+    .reply(404, () => {
+      return { ...data };
+    });
+}
+
+function successNock(url, data) {
+  return nock(url)
+    .persist(true)
+    // .log(console.log)
+    .get(uri => /^\/ok/i.test(uri))
+    .reply(200, (uri) => {
+      return { ...data };
+    });
+}
 
 describe('fetch-as', async () => {
-  test('invalid URL', async () => {
-    try {
-      await fetchAsJson('/invalid-url');
-    } catch (e) {
-      expect(e instanceof Error).toBe(true);
-      expect(e.message).toEqual('Only absolute URLs are supported');
-    }
+  const url = 'http://localhost:5353';
+  const successData: TestSuccessData = {
+    message: 'OK',
+  };
+  const errorData: TestErrorData = {
+    type: 'not_found',
+    message: 'Not found',
+  };
+
+  let nocks: (nock.Scope)[];
+
+  beforeAll(() => {
+    nocks = [
+      errorNock(url, errorData),
+      timeoutNock(url),
+
+      successNock(url, successData),
+    ];
   });
 
-  test('fetchAsArrayBuffer works', async () => {
-    try {
-      const d = await fetchAsArrayBuffer(`${testUrl}/ok`);
+  describe('error', () => {
+    it('throws when invalid URL', async () => {
+      try {
+        await fetchAsJson('/invalid-url');
+      } catch (e) {
+        expect(e).toStrictEqual(new TypeError('Only absolute URLs are supported'));
+      }
+    });
 
-      expect(d.status).toEqual(200);
-      expect(toBuffer(d.data)).toEqual(Buffer.from(JSON.stringify({
-        data: {
+    it('throws when socket timed out', async () => {
+      try {
+        await fetchAsJson(`${url}/timeout`, { timeout: 3e3 });
+      } catch (e) {
+        expect(e.type).toStrictEqual('request-timeout');
+        expect(e.message).toStrictEqual(`network timeout at: ${url}/timeout`);
+        expect(e.name).toStrictEqual('FetchError');
+      }
+    }, 10e3);
+
+  });
+
+  describe('ok', () => {
+    it(`returns response with 'fetchAsArrayBuffer'`, async () => {
+      try {
+        const d = await fetchAsArrayBuffer(`${url}/ok`);
+
+        expect(d.status).toStrictEqual(200);
+        expect(toBuffer(d.data)).toStrictEqual(Buffer.from(JSON.stringify({ ...successData })));
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns response with 'fetchAsBlob'`, async () => {
+      try {
+        const d = await fetchAsBlob(`${url}/ok`);
+
+        expect(d.status).toStrictEqual(200);
+        expect(d.data.size).toStrictEqual(16);
+        expect(d.data.type).toStrictEqual('application/json');
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns response with 'fetchAsBuffer'`, async () => {
+      try {
+        const d = await fetchAsBuffer(`${url}/ok`);
+
+        expect(d.status).toStrictEqual(200);
+        expect(d.data).toStrictEqual(Buffer.from(JSON.stringify({ ...successData })));
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns response with 'fetchAsJson'`, async () => {
+      try {
+        const d = await fetchAsJson(`${url}/ok`);
+
+        expect(d.status).toStrictEqual(200);
+        expect(d.data).toStrictEqual({ ...successData });
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns response with 'fetchAsText'`, async () => {
+      try {
+        const d = await fetchAsText(`${url}/ok`);
+
+        expect(d.status).toStrictEqual(200);
+        expect(d.data).toStrictEqual(JSON.stringify({ ...successData }));
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns response with 'fetchAsTextConverted'`, async () => {
+      try {
+        const d = await fetchAsTextConverted(`${url}/ok`);
+
+        expect(d.data).toStrictEqual(JSON.stringify({ ...successData }));
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns response with defined 'info'`, async () => {
+      try {
+        const d = await fetchAsJson<TestReturnType>(`${url}/ok`, { timeout: 3e3 });
+
+        expect(d).toStrictEqual({
           status: 200,
-          message: 'OK',
-        },
-      })));
-    } catch (e) {
-      throw e;
-    }
+          info: {
+            headers: { 'content-type': 'application/json' },
+            size: 0,
+            timeout: 3e3,
+            type: undefined,
+          },
+
+          data: { ...successData },
+        } as FetchAsData<TestReturnType>);
+      } catch (e) {
+        throw e;
+      }
+    });
+
   });
 
-  test('fetchAsArrayBuffer fails', async () => {
-    try {
-      const d = await fetchAsArrayBuffer(`${testUrl}/bad`);
+  describe('fail', () => {
+    it(`returns failed response with 'fetchAsArrayBuffer'`, async () => {
+      try {
+        const d = await fetchAsArrayBuffer(`${url}/error`);
 
-      expect(d.status).toBeGreaterThan(399);
-      expect(toBuffer(d.error)).toEqual(Buffer.from(JSON.stringify({
-        error: {
-          status: 400,
-          message: 'Bad',
-        },
-      })));
-    } catch (e) {
-      throw e;
-    }
+        expect(d.status).toBeGreaterThan(399);
+        expect(toBuffer(d.error)).toStrictEqual(Buffer.from(JSON.stringify({ ...errorData })));
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns failed response with 'fetchAsBlob'`, async () => {
+      try {
+        const d = await fetchAsBlob(`${url}/error`);
+
+        expect(d.status).toBeGreaterThan(399);
+        expect(d.error.size).toStrictEqual(42);
+        expect(d.error.type).toStrictEqual('application/json');
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns failed response with 'fetchAsBuffer'`, async () => {
+      try {
+        const d = await fetchAsBuffer(`${url}/error`);
+
+        expect(d.status).toBeGreaterThan(399);
+        expect(d.error).toStrictEqual(Buffer.from(JSON.stringify({ ...errorData })));
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns failed response with 'fetchAsJson'`, async () => {
+      try {
+        const d = await fetchAsJson(`${url}/error`);
+
+        expect(d.status).toBeGreaterThan(399);
+        expect(d.error).toStrictEqual({ ...errorData });
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns failed response with 'fetchAsText'`, async () => {
+      try {
+        const d = await fetchAsText(`${url}/error`);
+
+        expect(d.status).toBeGreaterThan(399);
+        expect(d.error).toStrictEqual(JSON.stringify({ ...errorData }));
+      } catch (e) {
+        throw e;
+      }
+    });
+
+    it(`returns failed response with 'fetchAsTextConverted`, async () => {
+      try {
+        const d = await fetchAsTextConverted(`${url}/error`);
+
+        expect(d.status).toBeGreaterThan(399);
+        expect(d.error).toStrictEqual(JSON.stringify({ ...errorData }));
+      } catch (e) {
+        throw e;
+      }
+    });
+
   });
 
-  test('fetchAsBlob works', async () => {
-    try {
-      const d = await fetchAsBlob(`${testUrl}/ok`);
-
-      expect(d.status).toEqual(200);
-      expect(d.data.size).toEqual(38);
-      expect(d.data.type).toEqual('application/json');
-    } catch (e) {
-      throw e;
-    }
+  afterAll(() => {
+    nocks.forEach(n => n.persist(false));
+    nock.cleanAll();
   });
-
-  test('fetchAsBlob fails', async () => {
-    try {
-      const d = await fetchAsBlob(`${testUrl}/bad`);
-
-      expect(d.status).toBeGreaterThan(399);
-      expect(d.error.size).toEqual(40);
-      expect(d.error.type).toEqual('application/json');
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('fetchAsBuffer works', async () => {
-    try {
-      const d = await fetchAsBuffer(`${testUrl}/ok`);
-
-      expect(d.status).toEqual(200);
-      expect(d.data).toEqual(Buffer.from(JSON.stringify({
-        data: {
-          status: 200,
-          message: 'OK',
-        },
-      })));
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('fetchAsBuffer fails', async () => {
-    try {
-      const d = await fetchAsBuffer(`${testUrl}/bad`);
-
-      expect(d.status).toBeGreaterThan(399);
-      expect(d.error).toEqual(Buffer.from(JSON.stringify({
-        error: {
-          status: 400,
-          message: 'Bad',
-        },
-      })));
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('fetchAsJson works', async () => {
-    try {
-      const d = await fetchAsJson(`${testUrl}/ok`);
-
-      expect(d.status).toEqual(200);
-      expect(d.data).toEqual({
-        data: {
-          status: 200,
-          message: 'OK',
-        },
-      });
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('fetchAsJson fails', async () => {
-    try {
-      const d = await fetchAsJson(`${testUrl}/bad`);
-
-      expect(d.status).toBeGreaterThan(399);
-      expect(d.error).toEqual({
-        error: {
-          status: 400,
-          message: 'Bad',
-        },
-      });
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('fetchAsText works', async () => {
-    try {
-      const d = await fetchAsText(`${testUrl}/ok`);
-
-      expect(d.status).toEqual(200);
-      expect(d.data).toEqual(JSON.stringify({
-        data: {
-          status: 200,
-          message: 'OK',
-        },
-      }));
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('fetchAsText fails', async () => {
-    try {
-      const d = await fetchAsText(`${testUrl}/bad`);
-
-      expect(d.status).toBeGreaterThan(399);
-      expect(d.error).toEqual(JSON.stringify({
-        error: {
-          status: 400,
-          message: 'Bad',
-        },
-      }));
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('fetchAsTextConverted works', async () => {
-    try {
-      const d = await fetchAsTextConverted(`${testUrl}/ok`);
-
-      expect(d.data).toEqual(JSON.stringify({
-        data: {
-          status: 200,
-          message: 'OK',
-        },
-      }));
-    } catch (e) {
-      throw e;
-    }
-  });
-
-  test('fetchAsTextConverted fails', async () => {
-    try {
-      const d = await fetchAsTextConverted(`${testUrl}/bad`);
-
-      expect(d.status).toBeGreaterThan(399);
-      expect(d.error).toEqual(JSON.stringify({
-        error: {
-          status: 400,
-          message: 'Bad',
-        },
-      }));
-    } catch (e) {
-      throw e;
-    }
-  });
-
 });
