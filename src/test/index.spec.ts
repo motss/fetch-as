@@ -88,7 +88,7 @@ describe('fetch-as', async () => {
 
   test('fetchAsBlob works', async () => {
     try {
-      const d = await fetchAsBlob<{ size: number, type: string }, {}>(`${testUrl}/ok`);
+      const d = await fetchAsBlob(`${testUrl}/ok`);
 
       expect(d.status).toEqual(200);
       expect(d.data.size).toEqual(38);
@@ -100,7 +100,7 @@ describe('fetch-as', async () => {
 
   test('fetchAsBlob fails', async () => {
     try {
-      const d = await fetchAsBlob<{}, { size: number, type: string }>(`${testUrl}/bad`);
+      const d = await fetchAsBlob(`${testUrl}/bad`);
 
       expect(d.status).toBeGreaterThan(399);
       expect(d.error.size).toEqual(40);

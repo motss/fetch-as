@@ -1,45 +1,34 @@
 // @ts-check
 
-export type DataType =
+export type FetchAsOptionals = Pick<Response, 'body'|'headers'|'size'|'type'>;
+export interface FetchAsReturnType {
+  status: number;
+  optionals: FetchAsOptionals;
+  data?: any;
+  error?: any;
+}
+export interface FetchAsData<T extends FetchAsReturnType> extends FetchAsReturnType {
+  data?: T['data'];
+  error?: T['error'];
+}
+
+declare type DataType =
   'arrayBuffer'
   | 'blob'
   | 'buffer'
   | 'json'
   | 'text'
   | 'textConverted';
-interface FetchAsReturnType {
-  data?: { [key: string]: any; };
-  error?: { [key: string]: any; };
-}
-export interface FetchAsData<T extends FetchAsReturnType> {
-  status: number;
-  data?: T['data'];
-  error?: T['error'];
+declare interface ReturnFetchAs<T, U> extends FetchAsReturnType {
+  data?: T;
+  error?: U;
 }
 
-import { RequestInit, Response } from 'node-fetch';
+import { Blob, RequestInit, Response } from 'node-fetch';
 
 import fetch from 'node-fetch';
 
-function toDataType(response: Response, dataType: DataType) {
-  switch (dataType) {
-    case 'arrayBuffer':
-      return response.arrayBuffer();
-    case 'blob':
-      return response.blob();
-    case 'buffer':
-      return response.buffer();
-    case 'json':
-      return response.json();
-    case 'text':
-    default:
-      return response.text();
-    case 'textConverted':
-      return response.textConverted();
-  }
-}
-
-async function fetchThen<T>(
+async function fetchThen<T extends FetchAsReturnType>(
   dataType: DataType,
   url: string,
   options?: RequestInit
@@ -47,50 +36,60 @@ async function fetchThen<T>(
   try {
     const r = await fetch(url, options);
     const rstat = r.status;
-    const d = await toDataType(r, dataType);
+    const optionals = {
+      body: r.body,
+      headers: r.headers,
+      size: r.size,
+      type: r.type,
+    };
+    const d = await r[dataType]();
 
-    return { status: rstat, [rstat > 399 ? 'error' : 'data']: d };
+    return {
+      optionals,
+      status: rstat,
+      [rstat > 399 ? 'error' : 'data']: d,
+    };
   } catch (e) {
     throw e;
   }
 }
 
-export function fetchAsArrayBuffer<T>(
+export async function fetchAsArrayBuffer<T extends ReturnFetchAs<ArrayBuffer, ArrayBuffer>>(
   url: string,
   options?: RequestInit
 ): Promise<FetchAsData<T>> {
   return fetchThen<T>('arrayBuffer', url, options);
 }
 
-export function fetchAsBlob<T>(
+export async function fetchAsBlob<T extends ReturnFetchAs<Blob, Blob>>(
   url: string,
   options?: RequestInit
 ): Promise<FetchAsData<T>> {
   return fetchThen<T>('blob', url, options);
 }
 
-export function fetchAsBuffer<T>(
+export async function fetchAsBuffer<T extends ReturnFetchAs<Buffer, Buffer>>(
   url: string,
   options?: RequestInit
 ): Promise<FetchAsData<T>> {
   return fetchThen<T>('buffer', url, options);
 }
 
-export function fetchAsJson<T>(
+export async function fetchAsJson<T extends ReturnFetchAs<{}, {}>>(
   url: string,
   options?: RequestInit
 ): Promise<FetchAsData<T>> {
   return fetchThen<T>('json', url, options);
 }
 
-export function fetchAsText<T>(
+export async function fetchAsText<T extends ReturnFetchAs<string, {}>>(
   url: string,
   options?: RequestInit
 ): Promise<FetchAsData<T>> {
   return fetchThen<T>('text', url, options);
 }
 
-export function fetchAsTextConverted<T>(
+export async function fetchAsTextConverted<T extends ReturnFetchAs<string, {}>>(
   url: string,
   options?: RequestInit
 ): Promise<FetchAsData<T>> {
