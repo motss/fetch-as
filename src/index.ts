@@ -7,10 +7,14 @@ export type DataType =
   | 'json'
   | 'text'
   | 'textConverted';
-export interface FetchAsData<T, U> {
+interface FetchAsReturnType {
+  data?: { [key: string]: any; };
+  error?: { [key: string]: any; };
+}
+export interface FetchAsData<T extends FetchAsReturnType> {
   status: number;
-  data?: T;
-  error?: U;
+  data?: T['data'];
+  error?: T['error'];
 }
 
 import { RequestInit, Response } from 'node-fetch';
@@ -35,11 +39,11 @@ function toDataType(response: Response, dataType: DataType) {
   }
 }
 
-async function fetchThen<T, U>(
+async function fetchThen<T>(
   dataType: DataType,
   url: string,
   options?: RequestInit
-): Promise<FetchAsData<T, U>> {
+): Promise<FetchAsData<T>> {
   try {
     const r = await fetch(url, options);
     const rstat = r.status;
@@ -51,48 +55,53 @@ async function fetchThen<T, U>(
   }
 }
 
-export function fetchAsArrayBuffer<T, U>(
+export function fetchAsArrayBuffer<T>(
   url: string,
   options?: RequestInit
-): Promise<FetchAsData<T, U>> {
-  return fetchThen<T, U>('arrayBuffer', url, options);
+): Promise<FetchAsData<T>> {
+  return fetchThen<T>('arrayBuffer', url, options);
 }
 
-export function fetchAsBlob<T, U>(
+export function fetchAsBlob<T>(
   url: string,
   options?: RequestInit
-): Promise<FetchAsData<T, U>> {
-  return fetchThen<T, U>('blob', url, options);
+): Promise<FetchAsData<T>> {
+  return fetchThen<T>('blob', url, options);
 }
 
-export function fetchAsBuffer<T, U>(
+export function fetchAsBuffer<T>(
   url: string,
   options?: RequestInit
-): Promise<FetchAsData<T, U>> {
-  return fetchThen<T, U>('buffer', url, options);
+): Promise<FetchAsData<T>> {
+  return fetchThen<T>('buffer', url, options);
 }
 
-export function fetchAsJson<T, U>(
+export function fetchAsJson<T>(
   url: string,
   options?: RequestInit
-): Promise<FetchAsData<T, U>> {
-  return fetchThen<T, U>('json', url, options);
+): Promise<FetchAsData<T>> {
+  return fetchThen<T>('json', url, options);
 }
 
-export function fetchAsText<T, U>(
+export function fetchAsText<T>(
   url: string,
   options?: RequestInit
-): Promise<FetchAsData<T, U>> {
-  return fetchThen<T, U>('text', url, options);
+): Promise<FetchAsData<T>> {
+  return fetchThen<T>('text', url, options);
 }
 
-export function fetchAsTextConverted<T, U>(
+export function fetchAsTextConverted<T>(
   url: string,
   options?: RequestInit
-): Promise<FetchAsData<T, U>> {
-  return fetchThen<T, U>('textConverted', url, options);
+): Promise<FetchAsData<T>> {
+  return fetchThen<T>('textConverted', url, options);
 }
 
-export { RequestInit };
-
-export default this;
+export default {
+  arrayBuffer: fetchAsArrayBuffer,
+  blob: fetchAsBlob,
+  buffer: fetchAsBuffer,
+  json: fetchAsJson,
+  text: fetchAsText,
+  textConverted: fetchAsTextConverted,
+};
