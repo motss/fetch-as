@@ -39,7 +39,7 @@
 - [API Reference](#api-reference)
   - [FetchAsInfo](#fetchasinfo)
   - [FetchAsReturnType](#fetchasreturntype)
-  - [FetchAsData&lt;T&gt;](#fetchasdatalttgt)
+  - [FetchAsData\<T\>](#fetchasdatat)
   - [fetchAs](#fetchas)
   - [fetchAsArrayBuffer(url[, options])](#fetchasarraybufferurl-options)
   - [fetchAsBlob(url[, options])](#fetchasbloburl-options)
@@ -167,7 +167,7 @@ runFetch();
 }
 ```
 
-### FetchAsData&lt;T&gt;
+### FetchAsData\<T\>
 
 Response data returned in the type of `T` that extends [FetchAsReturnType][fetchasreturntype-url] by default where `data` and `error` is of type `any` and this is overridable by the user to decide what it returns. To do so, user can create interfaces in [TypeScript][typescript-url] like so:
 
@@ -258,7 +258,7 @@ _* Please note that [encoding][encoding-url] is required to be installed in orde
 
 ## Additional typing file from `@types/node-fetch`
 
-Run the following command to install `@types/node-fetch` if user decides to create their own `options`. It is based on `RequestInit` from the said package and it is not included as it is **only** required for [TypeScript][typescript-url] users
+Run the following command to install `@types/node-fetch` if user decides to create their own `options`. It is based on `RequestInit` from the said package and it is not included as it is **only** required for [TypeScript][typescript-url] users.
 
 Otherwise, see [Options][node-fetch-options-url] for a list of supported options.
 

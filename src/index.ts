@@ -51,13 +51,12 @@ async function fetchThen<T extends FetchAsReturnType>(
   try {
     const r = await fetch(url, options);
     const rstat = r.status;
-    const rHeaders = getResponseHeaders(r.headers);
     const d = await r[dataType]();
 
     return {
       status: rstat,
       info: {
-        headers: rHeaders,
+        headers: getResponseHeaders(r.headers),
         timeout: r.timeout,
         size: r.size,
         type: r.type,
