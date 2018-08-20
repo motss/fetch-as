@@ -233,7 +233,7 @@ This contains a collection of methods that will convert the response into the sp
 ### fetchAsArrayBuffer(url[, options])
 
 - `url` <[string][string-mdn-url]> A string representing the URL for fetching.
-- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [Options][node-fetch-options-url] for a list of supported options.
+- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [`@types/node-fetch` for TypeScript users][typesnode-fetch-for-typescript-users-url] to see the explanation.
 - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[ArrayBuffer][arraybuffer-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [ArrayBuffer][arraybuffer-mdn-url].
 
 ### fetchAsBlob(url[, options])
