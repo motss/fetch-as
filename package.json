@@ -1,6 +1,6 @@
 {
   "name": "fetch-as",
-  "version": "0.5.1-0",
+  "version": "0.5.2-0",
   "description": "Fetch API in Node.js with specific response type",
   "keywords": [
     "array-buffer",
