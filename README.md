@@ -36,6 +36,7 @@
   - [Usage](#usage)
     - [Node.js](#nodejs)
     - [Native ES modules or TypeScript](#native-es-modules-or-typescript)
+- [`@types/node-fetch` for TypeScript users](#typesnode-fetch-for-typescript-users)
 - [API Reference](#api-reference)
   - [FetchAsInfo](#fetchasinfo)
   - [FetchAsReturnType](#fetchasreturntype)
@@ -47,7 +48,6 @@
   - [fetchAsJson(url[, options])](#fetchasjsonurl-options)
   - [fetchAsText(url[, options])](#fetchastexturl-options)
   - [fetchAsTextConverted(url[, options])](#fetchastextconvertedurl-options)
-- [Additional typing file from `@types/node-fetch`](#additional-typing-file-from-typesnode-fetch)
 - [License](#license)
 
 ## Pre-requisites
@@ -136,6 +136,16 @@ async function runFetch() {
 }
 
 runFetch();
+```
+
+## `@types/node-fetch` for TypeScript users
+
+For [TypeScript][typescript-url] users, you are **recommended** to install the required typing file from [@types/node-fetch][typesnode-fetch-url] as one of the `devDependencies` for the package to work properly as some of the typings used in the package are from the said typing file but they are not included as part of the bundle.
+
+Otherwise, see [Options][node-fetch-options-url] for a list of supported options.
+
+```sh
+$ npm install --dev @types/node-fetch
 ```
 
 ## API Reference
@@ -229,25 +239,25 @@ This contains a collection of methods that will convert the response into the sp
 ### fetchAsBlob(url[, options])
 
 - `url` <[string][string-mdn-url]> A string representing the URL for fetching.
-- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [Additional typing file from `@types/node-fetch`][additional-typing-file-from-types-nodefetch-url] to see the explanation.
+- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [`@types/node-fetch` for TypeScript users][typesnode-fetch-for-typescript-users-url] to see the explanation.
 - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Blob][blob-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [Blob][blob-mdn-url].
 
 ### fetchAsBuffer(url[, options])
 
 - `url` <[string][string-mdn-url]> A string representing the URL for fetching.
-- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [Additional typing file from `@types/node-fetch`][additional-typing-file-from-types-nodefetch-url] to see the explanation.
+- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [`@types/node-fetch` for TypeScript users][typesnode-fetch-for-typescript-users-url] to see the explanation.
 - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Buffer][buffer-nodejs-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [Buffer][buffer-nodejs-url].
 
 ### fetchAsJson(url[, options])
 
 - `url` <[string][string-mdn-url]> A string representing the URL for fetching.
-- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [Additional typing file from `@types/node-fetch`][additional-typing-file-from-types-nodefetch-url] to see the explanation.
+- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [`@types/node-fetch` for TypeScript users][typesnode-fetch-for-typescript-users-url] to see the explanation.
 - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[Object][object-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type JSON which can consumed by JavaScript as [Object][object-mdn-url].
 
 ### fetchAsText(url[, options])
 
 - `url` <[string][string-mdn-url]> A string representing the URL for fetching.
-- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [Additional typing file from `@types/node-fetch`][additional-typing-file-from-types-nodefetch-url] to see the explanation.
+- `options` <[?Object][object-mdn-url]> Options for HTTP(S) request. See [`@types/node-fetch` for TypeScript users][typesnode-fetch-for-typescript-users-url] to see the explanation.
 - returns: <[Promise][promise-mdn-url]<[FetchAsData][fetchasdatat-url]&lt;[string][string-mdn-url]&gt;> Promise which resolves with a [FetchAsData][fetchasdatat-url] of type [string][string-mdn-url].
 
 ### fetchAsTextConverted(url[, options])
@@ -255,16 +265,6 @@ This contains a collection of methods that will convert the response into the sp
 _* Please note that [encoding][encoding-url] is required to be installed in order to use this method._
 
 - Identical to [fetchAsText(url[, options])][fetchastexturl-options-url], except instead of always converting to `UTF-8`, encoding sniffing will be performed and text converted to `UTF-8`, if possible.
-
-## Additional typing file from `@types/node-fetch`
-
-Run the following command to install `@types/node-fetch` if user decides to create their own `options`. It is based on `RequestInit` from the said package and it is not included as it is **only** required for [TypeScript][typescript-url] users.
-
-Otherwise, see [Options][node-fetch-options-url] for a list of supported options.
-
-```sh
-$ npm install --dev @types/node-fetch
-```
 
 ## License
 
@@ -278,6 +278,7 @@ $ npm install --dev @types/node-fetch
 [encoding-url]: https://www.npmjs.com/package/encoding
 [node-fetch-options-url]: https://github.com/bitinn/node-fetch#fetch-options
 [buffer-nodejs-url]: https://nodejs.org/api/buffer.html#buffer_buffer
+[typesnode-fetch-url]: https://www.npmjs.com/package/@types/node-fetch
 
 [number-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number
 [string-mdn-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
@@ -290,7 +291,7 @@ $ npm install --dev @types/node-fetch
 [fetchasreturntype-url]: #fetchasreturntype
 [fetchasinfo-url]: #fetchasinfo
 [fetchastexturl-options-url]: #fetchastexturl-options
-[additional-typing-file-from-types-nodefetch-url]: #additional-typing-file-from-typesnode-fetch
+[typesnode-fetch-for-typescript-users-url]: #typesnode-fetch-for-typescript-users
 
 <!-- Badges -->
 [version-badge]: https://flat.badgen.net/npm/v/fetch-as
