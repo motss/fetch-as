@@ -6,7 +6,7 @@ export interface FetchAsInfo extends Pick<Response, 'size'|'timeout'|'type'> {
   };
 }
 
-export interface FetchAsReturnType<T, U> {
+export interface FetchAsReturnType<T = any, U = any> {
   status: number;
   info: FetchAsInfo;
 
@@ -61,31 +61,31 @@ function fetchAs<T, U>(fetchType: FetchType):
   };
 }
 
-export async function fetchAsArrayBuffer<T extends ArrayBuffer, U extends ArrayBuffer>(
+export async function fetchAsArrayBuffer<T = ArrayBuffer, U = ArrayBuffer>(
   url: string, options?: RequestInit) {
   return fetchAs<T, U>('arrayBuffer')(url, options);
 }
 
-export async function fetchAsBlob<T extends Blob, U extends Blob>(
+export async function fetchAsBlob<T = Blob, U = Blob>(
   url: string, options?: RequestInit) {
   return fetchAs<T, U>('blob')(url, options);
 }
 
-export async function fetchAsBuffer<T extends Buffer, U extends Buffer>(
+export async function fetchAsBuffer<T = Buffer, U = Buffer>(
   url: string, options?: RequestInit) {
   return fetchAs<T, U>('buffer')(url, options);
 }
 
-export async function fetchAsJson<T extends {}, U extends {}>(url: string, options?: RequestInit) {
+export async function fetchAsJson<T = {}, U = {}>(url: string, options?: RequestInit) {
   return fetchAs<T, U>('json')(url, options);
 }
 
-export async function fetchAsText<T extends string, U extends any>(
+export async function fetchAsText<T = string, U = any>(
   url: string, options?: RequestInit) {
   return fetchAs<T, U>('text')(url, options);
 }
 
-export async function fetchAsTextConverted<T extends string, U extends any>(
+export async function fetchAsTextConverted<T = string, U = any>(
   url: string, options?: RequestInit) {
   return fetchAs<T, U>('textConverted')(url, options);
 }
