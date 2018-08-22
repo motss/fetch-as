@@ -7,12 +7,6 @@ declare interface TestErrorData {
   type: string;
   message: string;
 }
-declare interface TestReturnType extends FetchAsReturnType {
-  data?: TestSuccessData;
-  error?: TestErrorData;
-}
-
-import { FetchAsData, FetchAsReturnType } from '../';
 
 import nock from 'nock';
 import fetch from 'node-fetch';
@@ -113,7 +107,7 @@ describe('fetch-as', async () => {
   describe('ok', () => {
     it(`returns response with 'fetchAsArrayBuffer'`, async () => {
       try {
-        const d = await fetchAsArrayBuffer(`${url}/ok`);
+        const d = await fetchAsArrayBuffer<ArrayBuffer, ArrayBuffer>(`${url}/ok`);
 
         expect(d.status).toStrictEqual(200);
         expect(toBuffer(d.data)).toStrictEqual(Buffer.from(JSON.stringify({ ...successData })));
@@ -179,7 +173,7 @@ describe('fetch-as', async () => {
 
     it(`returns response with defined 'info'`, async () => {
       try {
-        const d = await fetchAsJson<TestReturnType>(`${url}/ok`, { timeout: 3e3 });
+        const d = await fetchAsJson<TestSuccessData, TestErrorData>(`${url}/ok`, { timeout: 3e3 });
 
         expect(d).toStrictEqual({
           status: 200,
@@ -191,7 +185,7 @@ describe('fetch-as', async () => {
           },
 
           data: { ...successData },
-        } as FetchAsData<TestReturnType>);
+        } as FetchAsData<TestSuccessData>);
       } catch (e) {
         throw e;
       }
