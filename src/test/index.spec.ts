@@ -1,17 +1,14 @@
-// @ts-check
-
-declare interface TestSuccessData {
+interface TestSuccessData {
   message: string;
 }
-declare interface TestErrorData {
+interface TestErrorData {
   type: string;
   message: string;
 }
 
-import { FetchAsReturnType } from '../';
+import { FetchAsReturnType } from '..';
 
 import nock from 'nock';
-import fetch from 'node-fetch';
 
 import {
   fetchAsArrayBuffer,
@@ -20,9 +17,9 @@ import {
   fetchAsJson,
   fetchAsText,
   fetchAsTextConverted,
-} from '../';
+} from '..';
 
-function toBuffer(ab) {
+function toBuffer(ab: ArrayBuffer) {
   const buf = Buffer.alloc(ab.byteLength);
   const view = new Uint8Array(ab);
 
@@ -33,7 +30,7 @@ function toBuffer(ab) {
   return buf;
 }
 
-function timeoutNock(url) {
+function timeoutNock(url: string) {
   return nock(url)
     .persist(true)
     // .log(console.log)
@@ -44,7 +41,7 @@ function timeoutNock(url) {
     });
 }
 
-function errorNock(url, data) {
+function errorNock(url: string, data: Record<string, unknown>) {
   return nock(url)
     .persist(true)
     // .log(console.log)
@@ -54,17 +51,17 @@ function errorNock(url, data) {
     });
 }
 
-function successNock(url, data) {
+function successNock(url: string, data: Record<string, unknown>) {
   return nock(url)
     .persist(true)
     // .log(console.log)
     .get(uri => /^\/ok/i.test(uri))
-    .reply(200, (uri) => {
+    .reply(200, () => {
       return { ...data };
     });
 }
 
-describe('fetch-as', async () => {
+describe('fetch-as', () => {
   const url = 'http://localhost:5353';
   const successData: TestSuccessData = {
     message: 'OK',
@@ -112,7 +109,7 @@ describe('fetch-as', async () => {
         const d = await fetchAsArrayBuffer<ArrayBuffer>(`${url}/ok`);
 
         expect(d.status).toStrictEqual(200);
-        expect(toBuffer(d.data)).toStrictEqual(Buffer.from(JSON.stringify({ ...successData })));
+        expect(toBuffer(d.data!)).toStrictEqual(Buffer.from(JSON.stringify({ ...successData })));
       } catch (e) {
         throw e;
       }
@@ -123,8 +120,8 @@ describe('fetch-as', async () => {
         const d = await fetchAsBlob(`${url}/ok`);
 
         expect(d.status).toStrictEqual(200);
-        expect(d.data.size).toStrictEqual(16);
-        expect(d.data.type).toStrictEqual('application/json');
+        expect(d.data!.size).toStrictEqual(16);
+        expect(d.data!.type).toStrictEqual('application/json');
       } catch (e) {
         throw e;
       }
@@ -183,7 +180,7 @@ describe('fetch-as', async () => {
             headers: { 'content-type': 'application/json' },
             size: 0,
             timeout: 3e3,
-            type: undefined,
+            type: undefined!,
           },
 
           data: { ...successData },
@@ -201,7 +198,7 @@ describe('fetch-as', async () => {
         const d = await fetchAsArrayBuffer(`${url}/error`);
 
         expect(d.status).toBeGreaterThan(399);
-        expect(toBuffer(d.error)).toStrictEqual(Buffer.from(JSON.stringify({ ...errorData })));
+        expect(toBuffer(d.error!)).toStrictEqual(Buffer.from(JSON.stringify({ ...errorData })));
       } catch (e) {
         throw e;
       }
@@ -212,8 +209,8 @@ describe('fetch-as', async () => {
         const d = await fetchAsBlob(`${url}/error`);
 
         expect(d.status).toBeGreaterThan(399);
-        expect(d.error.size).toStrictEqual(42);
-        expect(d.error.type).toStrictEqual('application/json');
+        expect(d.error!.size).toStrictEqual(42);
+        expect(d.error!.type).toStrictEqual('application/json');
       } catch (e) {
         throw e;
       }

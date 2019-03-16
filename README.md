@@ -6,6 +6,8 @@
 
 <hr />
 
+[![Follow me][follow-me-badge]][follow-me-url]
+
 [![Version][version-badge]][version-url]
 [![Node version][node-version-badge]][node-version-url]
 [![MIT License][mit-license-badge]][mit-license-url]
@@ -27,15 +29,13 @@
 
 > Fetch API in Node.js with specific response type
 
-## Table of contents
+## Table of contents <!-- omit in toc -->
 
-- [Table of contents](#table-of-contents)
 - [Pre-requisites](#pre-requisites)
-- [Setup](#setup)
-  - [Install](#install)
-  - [Usage](#usage)
-    - [Node.js](#nodejs)
-    - [Native ES modules or TypeScript](#native-es-modules-or-typescript)
+- [Install](#install)
+- [Usage](#usage)
+  - [TypeScript or ES modules](#typescript-or-es-modules)
+  - [Node.js](#nodejs)
 - [`@types/node-fetch` for TypeScript users](#typesnode-fetch-for-typescript-users)
 - [API Reference](#api-reference)
   - [FetchAsInfo](#fetchasinfo)
@@ -54,47 +54,17 @@
 - [Node.js][node-js-url] >= 8.9.0
 - [NPM][npm-url] >= 5.5.1 ([NPM][npm-url] comes with [Node.js][node-js-url] so there is no need to install separately.)
 
-## Setup
 
-### Install
+## Install
 
 ```sh
 # Install via NPM
 $ npm install --save fetch-as
 ```
 
-### Usage
+## Usage
 
-#### Node.js
-
-```js
-const { fetchAs } = require('fetch-as');
-// OR require each method explicitly
-// const {
-//   fetchAsArrayBuffer,
-//   fetchAsBlob,
-//   fetchAsBuffer,
-//   fetchAsJson,
-//   fetchAsText,
-//   fetchAsTextConverted,
-// } = require('fetch-as');
-
-async function runFetch() {
-  const url = 'http://www.mocky.io/v2/5a50cfa82f000085158d5315';
-  const jsonData = await fetchAs.json(url); // OR fetchAsJson(url);
-
-  console.log('# json', jsonData.data);
-  // {
-  //   "status": 200,
-  //   "message": "OK",
-  //   "by": "fetch-as"
-  // }
-}
-
-runFetch();
-```
-
-#### Native ES modules or TypeScript
+### TypeScript or ES modules
 
 ```ts
 /**
@@ -125,6 +95,35 @@ async function runFetch() {
   };
   const url = 'http://www.mocky.io/v2/5a50cfa82f000085158d5315';
   const jsonData = await fetchAs.json(url, opts); // OR fetchAsJson(url);
+
+  console.log('# json', jsonData.data);
+  // {
+  //   "status": 200,
+  //   "message": "OK",
+  //   "by": "fetch-as"
+  // }
+}
+
+runFetch();
+```
+
+### Node.js
+
+```js
+const { fetchAs } = require('fetch-as');
+// OR require each method explicitly
+// const {
+//   fetchAsArrayBuffer,
+//   fetchAsBlob,
+//   fetchAsBuffer,
+//   fetchAsJson,
+//   fetchAsText,
+//   fetchAsTextConverted,
+// } = require('fetch-as');
+
+async function runFetch() {
+  const url = 'http://www.mocky.io/v2/5a50cfa82f000085158d5315';
+  const jsonData = await fetchAs.json(url); // OR fetchAsJson(url);
 
   console.log('# json', jsonData.data);
   // {
@@ -190,7 +189,7 @@ Each return type have default Generics type of `any` which means it can be any t
 
 ```ts
 // e.g. Overridable Generics
-declare interface SuccessData {
+interface SuccessData {
   message: string;
 }
 
@@ -278,7 +277,9 @@ _* Please note that [encoding][encoding-url] is required to be installed in orde
 [fetchastexturl-options-url]: #fetchastexturl-options
 
 <!-- Badges -->
-[version-badge]: https://flat.badgen.net/npm/v/fetch-as
+[follow-me-badge]: https://flat.badgen.net/twitter/follow/igarshmyb?icon=twitter
+
+[version-badge]: https://flat.badgen.net/npm/v/fetch-as?icon=npm
 [node-version-badge]: https://flat.badgen.net/npm/node/fetch-as
 [mit-license-badge]: https://flat.badgen.net/npm/license/fetch-as
 
@@ -287,10 +288,10 @@ _* Please note that [encoding][encoding-url] is required to be installed in orde
 [packagephobia-badge]: https://flat.badgen.net/packagephobia/install/fetch-as
 [bundlephobia-badge]: https://flat.badgen.net/bundlephobia/minzip/fetch-as
 
-[travis-badge]: https://flat.badgen.net/travis/motss/fetch-as
-[circleci-badge]: https://flat.badgen.net/circleci/github/motss/fetch-as
+[travis-badge]: https://flat.badgen.net/travis/motss/fetch-as?icon=travis
+[circleci-badge]: https://flat.badgen.net/circleci/github/motss/fetch-as?icon=circleci
 [daviddm-badge]: https://flat.badgen.net/david/dep/motss/fetch-as
-[codecov-badge]: https://flat.badgen.net/codecov/c/github/motss/fetch-as?label=codecov
+[codecov-badge]: https://flat.badgen.net/codecov/c/github/motss/fetch-as?label=codecov&icon=codecov
 [coveralls-badge]: https://flat.badgen.net/coveralls/c/github/motss/fetch-as?label=coveralls
 
 [codebeat-badge]: https://codebeat.co/badges/dad71df7-d5bc-4d45-9464-12fc305196bb
@@ -298,6 +299,8 @@ _* Please note that [encoding][encoding-url] is required to be installed in orde
 [coc-badge]: https://flat.badgen.net/badge/code%20of/conduct/pink
 
 <!-- Links -->
+[follow-me-url]: https://twitter.com/igarshmyb?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=motss/fetch-as
+
 [version-url]: https://www.npmjs.com/package/fetch-as
 [node-version-url]: https://nodejs.org/en/download
 [mit-license-url]: https://github.com/motss/fetch-as/blob/master/LICENSE

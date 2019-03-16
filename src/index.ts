@@ -1,9 +1,5 @@
-// @ts-check
-
 export interface FetchAsInfo extends Pick<Response, 'size'|'timeout'|'type'> {
-  headers: {
-    [key: string]: any;
-  };
+  headers: Record<string, unknown>;
 }
 
 export interface FetchAsReturnType<T = any, U = any> {
@@ -14,20 +10,20 @@ export interface FetchAsReturnType<T = any, U = any> {
   error?: U;
 }
 
-declare type FetchType =
-'arrayBuffer'
-  | 'blob'
-  | 'buffer'
-  | 'json'
-  | 'text'
-  | 'textConverted';
+type FetchType = Exclude<keyof Body, 'body' | 'bodyUsed'>;
 
-import { Blob, Headers, RequestInit, Response } from 'node-fetch';
+import {
+  Blob,
+  Body,
+  Headers,
+  RequestInit,
+  Response,
+} from 'node-fetch';
 
 import fetch from 'node-fetch';
 
 function getResponseHeaders(headers: Headers) {
-  const d = {};
+  const d: Record<string, unknown> = {};
 
   for (const [k, v] of headers) {
     d[k] = v;
@@ -36,10 +32,11 @@ function getResponseHeaders(headers: Headers) {
   return d;
 }
 
-function fetchAs<T, U>(fetchType: FetchType):
-(url: string, options?: RequestInit) => Promise<FetchAsReturnType<T, U>> {
-  return async (url: string, options?: RequestInit):
-  Promise<FetchAsReturnType<T, U>> => {
+function fetchAs<T, U>(fetchType: FetchType): (
+  url: string,
+  options?: RequestInit
+) => Promise<FetchAsReturnType<T, U>> {
+  return async (url: string, options?: RequestInit): Promise<FetchAsReturnType<T, U>> => {
     try {
       const r = await fetch(url, options);
       const d = await r[fetchType]();

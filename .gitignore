@@ -1,7 +1,7 @@
 # dot files
+.*cache
 .build/
 .DS_Store
-.nyc_output
 .tmp/
 .vscode
 *.env
@@ -21,3 +21,4 @@ node_modules/
 *.mjs
 
 # Do not ignore
+!rollup.config.js
