@@ -17,7 +17,6 @@
 [![Packagephobia][packagephobia-badge]][packagephobia-url]
 [![Bundlephobia][bundlephobia-badge]][bundlephobia-url]
 
-[![Build Status][travis-badge]][travis-url]
 [![CircleCI][circleci-badge]][circleci-url]
 [![Dependency Status][daviddm-badge]][daviddm-url]
 [![codecov][codecov-badge]][codecov-url]
@@ -288,7 +287,6 @@ _* Please note that [encoding][encoding-url] is required to be installed in orde
 [packagephobia-badge]: https://flat.badgen.net/packagephobia/install/fetch-as
 [bundlephobia-badge]: https://flat.badgen.net/bundlephobia/minzip/fetch-as
 
-[travis-badge]: https://flat.badgen.net/travis/motss/fetch-as?icon=travis
 [circleci-badge]: https://flat.badgen.net/circleci/github/motss/fetch-as?icon=circleci
 [daviddm-badge]: https://flat.badgen.net/david/dep/motss/fetch-as
 [codecov-badge]: https://flat.badgen.net/codecov/c/github/motss/fetch-as?label=codecov&icon=codecov
@@ -310,7 +308,6 @@ _* Please note that [encoding][encoding-url] is required to be installed in orde
 [packagephobia-url]: https://packagephobia.now.sh/result?p=fetch-as
 [bundlephobia-url]: https://bundlephobia.com/result?p=fetch-as
 
-[travis-url]: https://travis-ci.org/motss/fetch-as
 [circleci-url]: https://circleci.com/gh/motss/fetch-as/tree/master
 [daviddm-url]: https://david-dm.org/motss/fetch-as
 [codecov-url]: https://codecov.io/gh/motss/fetch-as
