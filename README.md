@@ -1,3 +1,5 @@
+🚨 No longer maintained. Moved to [@reallyland/node_mod](https://github.com/reallyland/node_mod). 🚨
+
 <div align="center" style="text-align: center;">
   <h1 style="border-bottom: none;">fetch-as</h1>
 
@@ -30,23 +32,23 @@
 
 ## Table of contents <!-- omit in toc -->
 
-- [Pre-requisites](#pre-requisites)
-- [Install](#install)
-- [Usage](#usage)
-  - [TypeScript or ES modules](#typescript-or-es-modules)
-  - [Node.js](#nodejs)
-- [`@types/node-fetch` for TypeScript users](#typesnode-fetch-for-typescript-users)
-- [API Reference](#api-reference)
-  - [FetchAsInfo](#fetchasinfo)
-  - [FetchAsReturnType](#fetchasreturntype)
-  - [fetchAs](#fetchas)
-  - [fetchAsArrayBuffer(url[, options])](#fetchasarraybufferurl-options)
-  - [fetchAsBlob(url[, options])](#fetchasbloburl-options)
-  - [fetchAsBuffer(url[, options])](#fetchasbufferurl-options)
-  - [fetchAsJson(url[, options])](#fetchasjsonurl-options)
-  - [fetchAsText(url[, options])](#fetchastexturl-options)
-  - [fetchAsTextConverted(url[, options])](#fetchastextconvertedurl-options)
-- [License](#license)
+- [Pre-requisites](#Pre-requisites)
+- [Install](#Install)
+- [Usage](#Usage)
+  - [TypeScript or ES modules](#TypeScript-or-ES-modules)
+  - [Node.js](#Nodejs)
+- [`@types/node-fetch` for TypeScript users](#typesnode-fetch-for-TypeScript-users)
+- [API Reference](#API-Reference)
+  - [FetchAsInfo](#FetchAsInfo)
+  - [FetchAsReturnType](#FetchAsReturnType)
+  - [fetchAs](#fetchAs)
+  - [fetchAsArrayBuffer(url[, options])](#fetchAsArrayBufferurl-options)
+  - [fetchAsBlob(url[, options])](#fetchAsBloburl-options)
+  - [fetchAsBuffer(url[, options])](#fetchAsBufferurl-options)
+  - [fetchAsJson(url[, options])](#fetchAsJsonurl-options)
+  - [fetchAsText(url[, options])](#fetchAsTexturl-options)
+  - [fetchAsTextConverted(url[, options])](#fetchAsTextConvertedurl-options)
+- [License](#License)
 
 ## Pre-requisites
 
